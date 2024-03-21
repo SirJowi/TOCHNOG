@@ -131,7 +131,11 @@ end_define
 (MATERIAL ####################################################################)
 
 start_define
-  phi 0.610865                                                                (angle of internal friction, 0 < phi < pi/2)
+  phi 0.610865                                                                (angle of internal friction, 0 < phi < pi/2, [rad])
+end_define
+
+start_define
+  tanphi 0.7001
 end_define
 
 start_define
@@ -139,17 +143,26 @@ start_define
 end_define
 
 start_define
-  psi 0.                                                                      (flow data phiflow, 0 < psi < pi/2)
+  psi 0.                                                                      (flow data phiflow, 0 < psi < pi/2, [rad])
 end_define
 
 group_type                    0 -materi                                       (specify a differential equation for the element group index)
 group_materi_memory           0 -total_linear                                 (total linear Lagrange formulation for the deformations)
 group_materi_density          0  2.0                                          (density for material flow equation [kg/m^3], !not kN/m^3)
-group_materi_elasti_young     0  1.e5                                         (Youngs module)
+group_materi_elasti_young     0  1.5e4                                        (Youngs module, [kPa])
 group_materi_elasti_poisson   0  0.3                                          (Poisson ratio)
 
 group_materi_plasti_mohr_coul_direct   0  phi c psi                           (very stable, alternative programming of the mohr-coulomb law)
 group_materi_plasti_tension_direct     0  1.0                                 (mandatory for mohr_coul_direct, tension limit, principal stresses that are higher will be cut of)
+
+(PHI-C-REDUCTION #############################################################)
+
+change_dataitem              10 -group_materi_plasti_mohr_coul_direct 0 0 -use (index -item item_index 0 -use)
+change_dataitem_time         10  0.0 tanphi  11.0 tanphi  12.0 0.  1.e20 0.0   (values of a variable at certain timesteps, t1 value1 t2 value2 t3 value3 ...)
+change_dataitem_time_method  10 -tangent                                       (change the -cosinus, -sinus or -tangens of the variable)
+
+change_dataitem              11 -group_materi_plasti_mohr_coul_direct 0 1 -use
+change_dataitem_time         11  0.0 c  11.0 c  12.0 0.0  1.e20 0.0
 
 (POSTPROCESSING ##############################################################)
 
@@ -163,9 +176,9 @@ post_calcul                                                                   (a
 (SIMULATION ##################################################################)
 
 (Anfangsspannungszustand)
-control_reset_dof              21  -sigyy
-control_reset_value_linear     21  0. 20.                                     (sigma = a * x + b * y -> -a -b)
-control_reset_dof              22  -sigxx -sigzz
+control_reset_dof              21 -sigyy
+control_reset_value_linear     21  0. 20.
+control_reset_dof              22 -sigxx -sigzz
 control_reset_value_linear     22  0. 10.
 
 (Gleichgewichtiteration)
@@ -224,25 +237,16 @@ control_mesh_delete_geometry   110 -excavation10
 control_print                  110  -time_current -post_node_rhside_ratio
 control_print_vtk              110 -separate_index
 
-(PHI-C-REDUCTION #############################################################)
+(PHI-C-REDUCTION ############################################################)
 
-change_dataitem                210 -group_materi_plasti_mohr_coul_direct 0 0 -use (index -item item_index 0 -use)
-change_dataitem_time           210  0.0 phi  9.0 phi  10.0 0.  1.e20 0.0          (values of a variable at certain timesteps, t1 value1 t2 value2 t3 value3 ...)
-change_dataitem_time_method    210 -tangent                                       (change the -cosinus, -sinus or -tangens of the variable)
-
-change_dataitem                220 -group_materi_plasti_mohr_coul_direct 0 1 -use
-change_dataitem_time           220  0.0 c  9.0 c  10.0 0.0  1.e20 0.0
-
-
-( safety factor calculation time-steps )
 control_timestep                       230  1.e-6 1.0
-control_timestep_iterations_automatic  230  1.e-4 1.e-6 1.e-3
+control_timestep_iterations_automatic  230  1.e-4 1.e-6 1.e-2
 control_print                          230 -time_current
-                                           -dtime -number_iterations
+                                           -dtime -number_iterations 
                                            -post_node_rhside_ratio
 control_print_vtk                      230 -separate_index
 
-control_print_vtk              500  -yes
+control_print_vtk                      500  -yes
 
 print_vtk_calculation -yes
 
@@ -250,8 +254,6 @@ print_vtk_calculation -yes
 
 (----Tochnog Input File Created by Gmsh Version 2.13.1 ----)
 
-(----------------Nodes----------------)
-
-include C:\Users\johan\Documents\GitHub\TOCHNOG\Mesh\slope_coarse_1
+include C:\Users\johan\Documents\GitHub\TOCHNOG\Mesh\slope_coarse_1   (includes the code of an external file, full path required!)
 
 end_data
