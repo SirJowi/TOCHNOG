@@ -227,11 +227,11 @@ control_print_vtk              110 -separate_index
 (PHI-C-REDUCTION #############################################################)
 
 change_dataitem                210 -group_materi_plasti_mohr_coul_direct 0 0 -use (index -item item_index 0 -use)
-change_dataitem_time           210  0.0 phi  10.0 phi  11.0 0.  1.e20 0.0          (values of a variable at certain timesteps, t1 value1 t2 value2 t3 value3 ...)
-change_dataitem_time_method    210 -tangent                                      (change the -cosinus, -sinus or -tangens of the variable)
+change_dataitem_time           210  0.0 phi  9.0 phi  10.0 0.  1.e20 0.0          (values of a variable at certain timesteps, t1 value1 t2 value2 t3 value3 ...)
+change_dataitem_time_method    210 -tangent                                       (change the -cosinus, -sinus or -tangens of the variable)
 
 change_dataitem                220 -group_materi_plasti_mohr_coul_direct 0 1 -use
-change_dataitem_time           220  0.0 c  10.0 c  11.0 0.0  1.e20 0.0
+change_dataitem_time           220  0.0 c  9.0 c  10.0 0.0  1.e20 0.0
 
 
 ( safety factor calculation time-steps )
