@@ -11,7 +11,7 @@
                                                                                
 (                             █▀█ █▀▄ █▀█ █▀▀ █▀▀ █▀▀ █▀▀ ▀█▀ █▀█ █▀█ █▀█ █   )
 (                             █▀▀ █▀▄ █ █ █▀▀ █▀▀ ▀▀█ ▀▀█  █  █ █ █ █ █▀█ █   )
-(    Test von Nick            ▀   ▀ ▀ ▀▀▀ ▀   ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀ ▀ ▀ ▀ ▀▀▀ )
+(                             ▀   ▀ ▀ ▀▀▀ ▀   ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀ ▀ ▀ ▀ ▀▀▀ )
                                                                                
 (Developed and copyrighted by Dennis Roddeman. All rights reserved.)
 (https://web.archive.org/web/http://www.tochnogprofessional.nl)
@@ -142,14 +142,14 @@ start_define
   psi 0.                                                                      (flow data phiflow, 0 < psi < pi/2)
 end_define
 
-group_type                    0 -materi                                       (specify a differential equation for the element group index)
-group_materi_memory           0 -total_linear                                 (total linear Lagrange formulation for the deformations)
-group_materi_density          0  2.0                                          (density for material flow equation [kg/m^3], !not kN/m^3)
-group_materi_elasti_young     0  1.e5                                         (Youngs module)
-group_materi_elasti_poisson   0  0.3                                          (Poisson ratio)
+group_type                    			0 -materi                             (specify a differential equation for the element group index)
+group_materi_memory           			0 -total_linear                       (total linear Lagrange formulation for the deformations)
+group_materi_density          			0  2.0                                (density for material flow equation [kg/m^3], !not kN/m^3)
+group_materi_elasti_young     			0  1.e5                               (Youngs module)
+group_materi_elasti_poisson   			0  0.3                                (Poisson ratio)
 
-group_materi_plasti_mohr_coul_direct   0  phi c psi                           (very stable, alternative programming of the mohr-coulomb law)
-group_materi_plasti_tension_direct     0  1.0                                 (mandatory for mohr_coul_direct, tension limit, principal stresses that are higher will be cut of)
+group_materi_plasti_mohr_coul_direct   	0  phi c psi                          (very stable, alternative programming of the mohr-coulomb law)
+group_materi_plasti_tension_direct     	0  1.0                                (mandatory for mohr_coul_direct, tension limit, principal stresses that are higher will be cut of)
 
 (POSTPROCESSING ##############################################################)
 
@@ -242,7 +242,7 @@ control_print                          230 -time_current
                                            -post_node_rhside_ratio
 control_print_vtk                      230 -separate_index
 
-control_print_vtk              500  -yes
+control_print_vtk              		   500  -yes
 
 print_vtk_calculation -yes
 
