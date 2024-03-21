@@ -135,7 +135,11 @@ start_define
 end_define
 
 start_define
-  c 15.                                                                       (cohesion [kPa])
+  tanphi 0.7001                                                           (angle of internal friction, 0 < phi < pi/2)
+end_define
+
+start_define
+  c 15                                                                    (cohesion [kPa])
 end_define
 
 start_define
@@ -145,11 +149,20 @@ end_define
 group_type                    0 -materi                                       (specify a differential equation for the element group index)
 group_materi_memory           0 -total_linear                                 (total linear Lagrange formulation for the deformations)
 group_materi_density          0  2.0                                          (density for material flow equation [kg/m^3], !not kN/m^3)
-group_materi_elasti_young     0  1.e5                                         (Youngs module)
+group_materi_elasti_young     0  1.5e4                                        (Youngs module)
 group_materi_elasti_poisson   0  0.3                                          (Poisson ratio)
 
 group_materi_plasti_mohr_coul_direct   0  phi c psi                           (very stable, alternative programming of the mohr-coulomb law)
 group_materi_plasti_tension_direct     0  1.0                                 (mandatory for mohr_coul_direct, tension limit, principal stresses that are higher will be cut of)
+
+(PHI-C-REDUCTION #############################################################)
+
+change_dataitem                10 -group_materi_plasti_mohr_coul_direct 0 0 -use (index -item item_index 0 -use)
+change_dataitem_time           10  0.0 tanphi  11.0 tanphi  12.0 0.  1.e20 0.0    (values of a variable at certain timesteps, t1 value1 t2 value2 t3 value3 ...)
+change_dataitem_time_method    10 -tangent                                       (change the -cosinus, -sinus or -tangens of the variable)
+
+change_dataitem                11 -group_materi_plasti_mohr_coul_direct 0 1 -use
+change_dataitem_time           11  0.0 c  11.0 c  12.0 0.0  1.e20 0.0
 
 (POSTPROCESSING ##############################################################)
 
@@ -170,79 +183,70 @@ control_reset_value_linear     22  0. 10.
 
 (Gleichgewichtiteration)
 control_timestep               100  dt t_exc
-control_print                  100  -time_current -post_node_rhside_ratio
+control_print                  100  -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              100  -separate_index
 
 (Aushub)
 control_timestep               101  dt t_exc
 control_mesh_delete_geometry   101  -excavation1
-control_print                  101  -time_current -post_node_rhside_ratio
+control_print                  101  -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              101  -separate_index
 
 control_timestep               102  dt t_exc
 control_mesh_delete_geometry   102 -excavation2
-control_print                  102  -time_current -post_node_rhside_ratio
+control_print                  102 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              102 -separate_index
 
 control_timestep               103  dt t_exc
 control_mesh_delete_geometry   103 -excavation3
-control_print                  103  -time_current -post_node_rhside_ratio
+control_print                  103 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              103 -separate_index
 
 control_timestep               104  dt t_exc
 control_mesh_delete_geometry   104 -excavation4
-control_print                  104  -time_current -post_node_rhside_ratio
+control_print                  104 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              104 -separate_index
 
 control_timestep               105  dt t_exc
 control_mesh_delete_geometry   105 -excavation5
-control_print                  105  -time_current -post_node_rhside_ratio
+control_print                  105 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              105 -separate_index
 
 control_timestep               106  dt t_exc
 control_mesh_delete_geometry   106 -excavation6
-control_print                  106  -time_current -post_node_rhside_ratio
+control_print                  106 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              106 -separate_index
 
 control_timestep               107  dt t_exc
 control_mesh_delete_geometry   107 -excavation7
-control_print                  107  -time_current -post_node_rhside_ratio
+control_print                  107 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              107 -separate_index
 
 control_timestep               108  dt t_exc
 control_mesh_delete_geometry   108 -excavation8
-control_print                  108  -time_current -post_node_rhside_ratio
+control_print                  108 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              108 -separate_index
 
 control_timestep               109  dt t_exc
 control_mesh_delete_geometry   109 -excavation9
-control_print                  109  -time_current -post_node_rhside_ratio
+control_print                  109 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              109 -separate_index
 
 control_timestep               110  dt t_exc
 control_mesh_delete_geometry   110 -excavation10
-control_print                  110  -time_current -post_node_rhside_ratio
+control_print                  110 -time_current -dtime -number_iterations -post_node_rhside_ratio
 control_print_vtk              110 -separate_index
 
-(PHI-C-REDUCTION #############################################################)
 
-change_dataitem                210 -group_materi_plasti_mohr_coul_direct 0 0 -use (index -item item_index 0 -use)
-change_dataitem_time           210  0.0 phi  9.0 phi  10.0 0.  1.e20 0.0          (values of a variable at certain timesteps, t1 value1 t2 value2 t3 value3 ...)
-change_dataitem_time_method    210 -tangent                                       (change the -cosinus, -sinus or -tangens of the variable)
-
-change_dataitem                220 -group_materi_plasti_mohr_coul_direct 0 1 -use
-change_dataitem_time           220  0.0 c  9.0 c  10.0 0.0  1.e20 0.0
-
-
-( safety factor calculation time-steps )
-control_timestep                       230  1.e-6 1.0
-control_timestep_iterations_automatic  230  1.e-4 1.e-6 1.e-3
-control_print                          230 -time_current
+(safety factor calculation time-steps)
+control_timestep                       	230  1.e-2 1
+control_timestep_iterations_automatic  	230  1.e-4 1.e-6 1.e-2
+control_print                          	230 -time_current
                                            -dtime -number_iterations
                                            -post_node_rhside_ratio
-control_print_vtk                      230 -separate_index
+control_print_vtk                      	230 -separate_index
 
-control_print_vtk              500  -yes
+control_print_vtk              			500  -yes
 
 print_vtk_calculation -yes
 
@@ -252,7 +256,7 @@ print_vtk_calculation -yes
 
 (----------------Nodes----------------)
 
-include C:\Users\johan\Documents\GitHub\TOCHNOG\Mesh\slope_coarse_1
+(include C:\Users\johan\Documents\GitHub\TOCHNOG\Mesh\slope_coarse_1)
 
 include C:\Users\NickSteudtner\Documents\GitHub\TOCHNOG\Mesh\slope_coarse_1
 
