@@ -1,0 +1,6 @@
+*.vtk
+*.res
+*.log
+*.msh
+*.dbs
+*.png
