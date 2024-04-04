@@ -1,0 +1,35 @@
+(#############################################################################)
+
+(8888888888 .d88888b.   .d8888b.  888    888 888b    888  .d88888b.   .d8888b)
+    (88    d88P" "Y88b d88P  Y88b 888    888 8888b   888 d88P" "Y88b d88P  Y88)
+    (88    888     888 888    888 888    888 88888b  888 888	888 888    88)
+    (88    888     888 888        8888888888 888Y88b 888 888     888 88)
+    (88    888     888 888        888    888 888 Y88b888 888     888 888  8888)
+    (88    888     888 888    888 888    888 888  Y88888 888     888 888    88)
+    (88    Y88b. .d88P Y88b  d88P 888    888 888   Y8888 Y88b. .d88P Y88b  d88)
+    (88     "Y88888P"   "Y8888P"  888    888 888    Y888  "Y88888P"   "Y8888P8)
+
+(                             █▀█ █▀▄ █▀█ █▀▀ █▀▀ █▀▀ █▀▀ ▀█▀ █▀█ █▀█ █▀█ █   )
+(                             █▀▀ █▀▄ █ █ █▀▀ █▀▀ ▀▀█ ▀▀█  █  █ █ █ █ █▀█ █   )
+(                             ▀   ▀ ▀ ▀▀▀ ▀   ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀ ▀ ▀ ▀ ▀▀▀ )
+
+(Developed and copyrighted by Dennis Roddeman. All rights reserved.)
+(https://web.archive.org/web/http://www.tochnogprofessional.nl)
+
+
+( Kompressionsversuch einer Biaxialprobe | Ebene Verformung ##################)
+
+(INITIALIZATION ##############################################################)
+
+echo  -yes                                                                    (always the 1st record, echoes the input in the terminal)
+number_of_space_dimensions 2                                                  (always the 2nd record, 1=1D problem, 2=2D problem,...)
+materi_velocity                                                               (create velocity field in the entire domain)
+materi_displacement                                                           (create a displacement field in the entire domain)
+materi_stress                                                                 (create a stress field in the entire domain)
+materi_strain_total                                                           (add the total strain to the node_dof records)
+materi_strain_plasti                                                          (add the plastic strain to the node_dof records)
+materi_plasti_kappa_shear                                                     (add the size of the shear part of the plastic strain to the node_dof records)
+materi_plasti_phimob                                                          (add the mobilized friction angle to the node_dof records, available for mohr-coulomb plasticity only)
+
+end_initia
+
