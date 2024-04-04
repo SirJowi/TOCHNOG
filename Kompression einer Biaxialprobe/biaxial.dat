@@ -62,19 +62,37 @@ upper_edge  0.0 0.0  0.1  0.0  tolerance
 
 (MESH GENERATION #############################################################)
 
-control_mesh_macro		        1 -rectangle 0 16 16                          (index type_of_macro_item material_group n_elem_x n_elem_y)
+control_mesh_macro		        1 -rectangle 0 8 16                           (index type_of_macro_item material_group n_elem_x n_elem_y)
 control_mesh_macro_parameters	1 0.05 -0.1  0.1 0.2                          (index x_middle y_middle x_length y_length)
 
 (MATERIAL ####################################################################)
 
 start_define
   Emodul      2.e4                                                            (Young's Module [kN/m^2])
+end_define
+
+start_define
   Poisson     0.3                                                             (Poisson Ratio, Querdehnzahl)
+end_define
+
+start_define
   phi         0.5236                                                          (angle of internal friction, 0 < phi < pi/2, [rad])
+end_define
+
+start_define
   c           0.0                                                             (cohesion [kPa])
+end_define
+
+start_define
   psi         0.1745                                                          (flow data phiflow, 0 < psi < pi/2, [rad])
+end_define
+
+start_define
   k           1.0e-3                                                          (permeability [m/s])
-  beta        1.0e-6                                                          (capacity ([m²/kN])
+end_define
+
+start_define
+  beta        1.0e-6                                                          (capacity [m²/kN])
 end_define
 
 
@@ -92,4 +110,34 @@ groundflow_consolidation_apply          -yes                                  (g
 bounda_dof     1  -bottom_edge -vely                                          (which dof gets a boundary condition, index location dof)
 bounda_time    1  0.0 0.0  1.e10 0.0                                          (index time_1 value_of_dof_with_index time_2 ...)
 
+
+groundflow_density               1.0
+groundflow_total_pressure_limit  1.e10
+groundflow_phreatic_level        -10.0 0.0 +10.0 0.0                          (polyline of the groundwater level)
+
+
+(POSTPROCESSING ##############################################################)
+
+post_calcul                                                                   (activates calculation post results)
+  -materi_stress       -average                                               (mean stress)
+  -materi_stress       -size_dev                                              (deviatoric part of the stress tensor)
+  -materi_strain_total -average                                               (volumetric strain / 3)
+  -materi_strain_total -size_dev                                              (deviatoric part of the strain tensor)
+  -groundflow_pressure -total_pressure
+
+
 (SIMULATION ##################################################################)
+
+control_timestep                10  1.0 1.0
+control_inertia_apply           10  -yes
+
+(Anfangsspannungszustand)
+control_reset_dof              21 -sigxx -sigyy -sigzz
+control_reset_value_linear     21  0. 200.
+control_print_vtk              21 -yes
+
+(Gleichgewichtiteration)
+control_timestep               100  0.1 1.0
+control_print                  100  -time_current -post_node_rhside_ratio
+control_print_vtk              100  -separate_index
+end_data
