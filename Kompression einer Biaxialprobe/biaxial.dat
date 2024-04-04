@@ -89,5 +89,7 @@ groundflow_consolidation_apply          -yes                                  (g
 
 (BOUNDARY CONDITIONS #########################################################)
 
-bounda_dof 1  -bottom -vely
-bounda_time    1  0.0 0.0 1.e10 0.0
+bounda_dof     1  -bottom_edge -vely                                          (which dof gets a boundary condition, index location dof)
+bounda_time    1  0.0 0.0  1.e10 0.0                                          (index time_1 value_of_dof_with_index time_2 ...)
+
+(SIMULATION ##################################################################)
