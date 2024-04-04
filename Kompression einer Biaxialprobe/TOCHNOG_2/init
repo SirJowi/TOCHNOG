@@ -1,0 +1,13 @@
+(INITIALIZATION ##############################################################)
+
+echo  -yes                                                                    (always the 1st record, echoes the input in the terminal)
+number_of_space_dimensions 2                                                  (always the 2nd record, 1=1D problem, 2=2D problem,...)
+materi_velocity                                                               (create velocity field in the entire domain)
+materi_displacement                                                           (create a displacement field in the entire domain)
+materi_stress                                                                 (create a stress field in the entire domain)
+materi_strain_total                                                           (add the total strain to the node_dof records)
+materi_strain_plasti                                                          (add the plastic strain to the node_dof records)
+materi_plasti_kappa_shear                                                     (add the size of the shear part of the plastic strain to the node_dof records)
+materi_plasti_phimob                                                          (add the mobilized friction angle to the node_dof records, available for mohr-coulomb plasticity only)
+
+end_initia

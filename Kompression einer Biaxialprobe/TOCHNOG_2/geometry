@@ -1,0 +1,79 @@
+(GEOMETRY DEFINITION #########################################################)
+
+start_define
+  tolerance  0.01                                                             (set variable "tolerance" to 0.01)
+end_define
+
+start_define
+  bottom_edge geometry_line counter_a                                         (create a geometry_line named "bottom_edge" with index counter_a)
+end_define
+bottom_edge  0.0 -20.0  50.0 -20.0  tolerance                                 (starting point (x, y), ending point (x, y), with tolerance "tolerance")
+
+start_define
+  right_edge  geometry_line counter_a
+end_define
+right_edge  50.0 -20.0  50.0   0.0  tolerance
+
+start_define
+  left_edge  geometry_line counter_a
+end_define
+left_edge  0.0 -20.0  0.0  0.0  tolerance
+
+(LINE LOAD INPUT #####)
+
+start_define
+  excavator  geometry_line 4
+end_define
+excavator  15.0 0.0  20.0 0.0  tolerance
+
+(EXCAVATION #####)
+
+start_define
+  excavation1  geometry_quadrilateral counter_a                                (create a quadrilateral named "excavation" with index counter_a)
+end_define
+excavation1  21.5 -1.0    50.0 -1.0    20.0  0.0    50.0 0.0 tolerance         (x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3, tolerance | in 2D only x and y)
+
+start_define
+  excavation2  geometry_quadrilateral counter_a
+end_define
+excavation2  23.0 -2.0    50.0 -2.0    21.5 -1.0    50.0 -1.0 tolerance
+
+start_define
+  excavation3  geometry_quadrilateral counter_a
+end_define
+excavation3  24.5 -3.0    50.0 -3.0    23.0 -2.0    50.0 -2.0 tolerance
+
+start_define
+  excavation4  geometry_quadrilateral counter_a
+end_define
+excavation4  26.0 -4.0    50.0 -4.0    24.5 -3.0    50.0 -3.0 tolerance
+
+start_define
+  excavation5  geometry_quadrilateral counter_a
+end_define
+excavation5   27.5 -5.0    50.0 -5.0    26.0 -4.0    50.0 -4.0 tolerance
+
+start_define
+  excavation6  geometry_quadrilateral counter_a
+end_define
+excavation6  29.0 -6.0    50.0 -6.0    27.5 -5.0    50.0 -5.0 tolerance
+
+start_define
+  excavation7  geometry_quadrilateral counter_a
+end_define
+excavation7  30.5 -7.0    50.0 -7.0    29.0 -6.0    50.0 -6.0 tolerance
+
+start_define
+  excavation8  geometry_quadrilateral counter_a
+end_define
+excavation8  32.0 -8.0    50.0 -8.0    30.5 -7.0    50.0 -7.0 tolerance
+
+start_define
+  excavation9  geometry_quadrilateral counter_a
+end_define
+excavation9  33.5 -9.0    50.0 -9.0    32.0 -8.0    50.0 -8.0 tolerance
+
+start_define
+  excavation10  geometry_quadrilateral counter_a
+end_define
+excavation10  35 -10.0    50.0 -10.0    33.5 -9.0    50.0 -9.0 tolerance

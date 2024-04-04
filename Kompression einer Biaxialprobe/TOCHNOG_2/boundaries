@@ -1,0 +1,13 @@
+(BOUNDARY CONDITIONS #########################################################)
+
+bounda_dof counter_a -bottom_edge -vely -velx                                 (states which DOF's in which nodes get prescribed values)
+bounda_dof counter_a -left_edge   -velx                                       (bound_dof index [all nodes on] -geometry -DOF)
+bounda_dof counter_a -right_edge  -velx
+
+force_gravity  0.0 -9.81                                                      (gravitational acceleration, g_x, g_y, g_z | 2D only x and y)
+force_gravity_time 0.0 0.0 1.0 1.0 1.0e5 1.0                                  (for t=0, g=g*0, linear growth to t=1, g=g*1, stays until t=1.0e5 slow activation for path dependent problems)
+
+(LOAD EXCAVATOR #)
+force_edge           5 0.0 -100                                               (edge force: index x y)
+force_edge_geometry  5 -geometry_line 4                                       (index geometry_type index_of_geometry)
+force_edge_time      5 0.0 0.0 1.0 1.0 1.0e5 1.0                              (index time1 value1 time2 value2)
