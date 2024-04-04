@@ -30,7 +30,8 @@ materi_strain_total                                                           (a
 materi_strain_plasti                                                          (add the plastic strain to the node_dof records)
 materi_plasti_kappa_shear                                                     (add the size of the shear part of the plastic strain to the node_dof records)
 materi_plasti_phimob                                                          (add the mobilized friction angle to the node_dof records, available for mohr-coulomb plasticity only)
-
+groundflow_pressure
+groundflow_velocity
 end_initia
 
 (GEOMETRY DEFINITION #########################################################)
@@ -47,9 +48,42 @@ bottom_edge  0.0 -0.2  0.1 -0.2  tolerance                                    (s
 start_define
   right_edge  geometry_line counter_a
 end_define
-right_edge  0.1 -0.2  50.0   0.0  tolerance
+right_edge  0.1 -0.2  0.1   0.0  tolerance
 
 start_define
   left_edge  geometry_line counter_a
 end_define
-left_edge  0.0 -20.0  0.0  0.0  tolerance
+left_edge  0.0 -0.2  0.0  0.0  tolerance
+
+start_define
+  upper_edge  geometry_line counter_a
+end_define
+upper_edge  0.0 0.0  0.1  0.0  tolerance
+
+(MESH GENERATION #############################################################)
+
+control_mesh_macro		        1 -rectangle 0 16 16                          (index type_of_macro_item material_group n_elem_x n_elem_y)
+control_mesh_macro_parameters	1 0.05 -0.1  0.1 0.2                          (index x_middle y_middle x_length y_length)
+
+(MATERIAL ####################################################################)
+
+start_define
+  Emodul      2.e4                                                            (Young's Module [kN/m^2])
+  Poisson     0.3                                                             (Poisson Ratio, Querdehnzahl)
+  phi         0.5236                                                          (angle of internal friction, 0 < phi < pi/2, [rad])
+  c           0.0                                                             (cohesion [kPa])
+  psi         0.1745                                                          (flow data phiflow, 0 < psi < pi/2, [rad])
+  k           1.0e-3                                                          (permeability [m/s])
+  beta        1.0e-6                                                          (capacity ([m²/kN])
+end_define
+
+
+group_type 	                            0  -materi -groundflow                (gekoppelte berechnung, boden + porenwasser)
+group_materi_memory                     0  -total_linear
+group_materi_elasti_young	 	        0  Emodul
+group_materi_elasti_poisson 		    0  Poisson
+group_materi_plasti_mohr_coul_direct	0  phi c psi
+group_groundflow_permeability           0  k k                                (index perm_x perm_y [m/s])  (m/s/(rho*g))  (Durchlässigkeit/rho*g)
+group_groundflow_capacity               0  beta                               (capacity [m²/kN]) (n*beta)
+groundflow_consolidation_apply          -yes                                  (gekoppelte berechnung aktivieren)
+
