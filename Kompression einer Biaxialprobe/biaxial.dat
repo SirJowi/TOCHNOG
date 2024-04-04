@@ -87,3 +87,7 @@ group_groundflow_permeability           0  k k                                (i
 group_groundflow_capacity               0  beta                               (capacity [m²/kN]) (n*beta)
 groundflow_consolidation_apply          -yes                                  (gekoppelte berechnung aktivieren)
 
+(BOUNDARY CONDITIONS #########################################################)
+
+bounda_dof 1  -bottom -vely
+bounda_time    1  0.0 0.0 1.e10 0.0
