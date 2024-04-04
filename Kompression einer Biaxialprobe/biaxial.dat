@@ -33,3 +33,23 @@ materi_plasti_phimob                                                          (a
 
 end_initia
 
+(GEOMETRY DEFINITION #########################################################)
+
+start_define
+  tolerance  0.01                                                             (set variable "tolerance" to 0.01)
+end_define
+
+start_define
+  bottom_edge geometry_line counter_a                                         (create a geometry_line named "bottom_edge" with index counter_a)
+end_define
+bottom_edge  0.0 -0.2  0.1 -0.2  tolerance                                    (starting point (x, y), ending point (x, y), with tolerance "tolerance")
+
+start_define
+  right_edge  geometry_line counter_a
+end_define
+right_edge  0.1 -0.2  50.0   0.0  tolerance
+
+start_define
+  left_edge  geometry_line counter_a
+end_define
+left_edge  0.0 -20.0  0.0  0.0  tolerance
